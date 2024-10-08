@@ -1,0 +1,135 @@
+<!-- Q1.Create an HTML form that contain the Student Registration details and write a
+JavaScript to validate Student first and last name as it should not contain other than
+alphabets and age should be between 18 to 50. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Student Registration</h2>
+        <form id="studentForm" onsubmit="return validateForm()">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required>
+            <span id="firstNameError" class="error"></span>
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" required>
+            <span id="lastNameError" class="error"></span>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+            <span id="ageError" class="error"></span>
+
+            <input type="submit" value="Register">
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            let firstName = document.getElementById("firstName").value;
+            let lastName = document.getElementById("lastName").value;
+            let age = document.getElementById("age").value;
+            let firstNameError = document.getElementById("firstNameError");
+            let lastNameError = document.getElementById("lastNameError");
+            let ageError = document.getElementById("ageError");
+
+            let valid = true;
+
+            // Clear previous error messages
+            firstNameError.textContent = "";
+            lastNameError.textContent = "";
+            ageError.textContent = "";
+
+            // Validate first name (alphabets only)
+            if (!/^[A-Za-z]+$/.test(firstName)) {
+                firstNameError.textContent = "First name should only contain alphabets.";
+                valid = false;
+            }
+
+            // Validate last name (alphabets only)
+            if (!/^[A-Za-z]+$/.test(lastName)) {
+                lastNameError.textContent = "Last name should only contain alphabets.";
+                valid = false;
+            }
+
+            // Validate age (18-50)
+            if (age < 18 || age > 50) {
+                ageError.textContent = "Age must be between 18 and 50.";
+                valid = false;
+            }
+
+            return valid; // If valid is true, form will submit; otherwise, it won't
+        }
+    </script>
+
+</body>
+</html>
+

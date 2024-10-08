@@ -1,0 +1,143 @@
+<!-- Q2.Create an HTML form that contain the Employee Registration details and write
+a JavaScript to validate DOB, Joining Date, and Salary.
+ -->
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Employee Registration</h2>
+        <form id="employeeForm" onsubmit="return validateForm()">
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" name="fullName" required>
+            <span id="nameError" class="error"></span>
+
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required>
+            <span id="dobError" class="error"></span>
+
+            <label for="joiningDate">Joining Date:</label>
+            <input type="date" id="joiningDate" name="joiningDate" required>
+            <span id="joiningDateError" class="error"></span>
+
+            <label for="salary">Salary:</label>
+            <input type="number" id="salary" name="salary" required>
+            <span id="salaryError" class="error"></span>
+
+            <input type="submit" value="Register">
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            let dob = document.getElementById("dob").value;
+            let joiningDate = document.getElementById("joiningDate").value;
+            let salary = document.getElementById("salary").value;
+            let dobError = document.getElementById("dobError");
+            let joiningDateError = document.getElementById("joiningDateError");
+            let salaryError = document.getElementById("salaryError");
+
+            let valid = true;
+
+            // Clear previous error messages
+            dobError.textContent = "";
+            joiningDateError.textContent = "";
+            salaryError.textContent = "";
+
+            // Validate Date of Birth (must be at least 18 years ago)
+            const today = new Date();
+            const dobDate = new Date(dob);
+            const age = today.getFullYear() - dobDate.getFullYear();
+            const ageMonthDifference = today.getMonth() - dobDate.getMonth();
+            const ageDayDifference = today.getDate() - dobDate.getDate();
+
+            if (age < 18 || (age === 18 && (ageMonthDifference < 0 || (ageMonthDifference === 0 && ageDayDifference < 0)))) {
+                dobError.textContent = "Employee must be at least 18 years old.";
+                valid = false;
+            }
+
+            // Validate Joining Date (must be after Date of Birth)
+            const joiningDateObj = new Date(joiningDate);
+            if (joiningDateObj <= dobDate) {
+                joiningDateError.textContent = "Joining date must be after the date of birth.";
+                valid = false;
+            }
+
+            // Validate Salary (must be greater than 0)
+            if (salary <= 0) {
+                salaryError.textContent = "Salary must be a positive number.";
+                valid = false;
+            }
+
+            return valid; // Prevent form submission if validation fails
+        }
+    </script>
+
+</body>
+</html>
