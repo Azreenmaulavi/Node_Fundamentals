@@ -1,6 +1,5 @@
 // 9.Create a node js express server to provide register REST API validate response on any REST client like POSTMAN
 
-
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -13,6 +12,12 @@ app.use(bodyParser.json());
 // Simulated user storage (for demo purposes, this should be a database)
 const users = [];
 
+// Function to validate email format
+const validateEmail = (email) => {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple regex for email validation
+  return re.test(String(email).toLowerCase());
+};
+
 // Registration API endpoint
 app.post('/register', (req, res) => {
   const { email, password, name } = req.body;
@@ -22,7 +27,12 @@ app.post('/register', (req, res) => {
     return res.status(400).json({ message: 'All fields are required: name, email, and password' });
   }
 
-  // Check if password length is sufficient (for simplicity, no regex)
+  // Validate email format
+  if (!validateEmail(email)) {
+    return res.status(400).json({ message: 'Invalid email format' });
+  }
+
+  // Check if password length is sufficient
   if (password.length < 6) {
     return res.status(400).json({ message: 'Password must be at least 6 characters long' });
   }
@@ -45,5 +55,3 @@ app.post('/register', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-
-
